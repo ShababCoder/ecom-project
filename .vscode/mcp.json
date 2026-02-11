@@ -1,0 +1,9 @@
+{
+	"servers": {
+		"my-mcp-server-264e90b6": {
+			"url": "https://mcp.sanity.io",
+			"type": "http"
+		}
+	},
+	"inputs": []
+}
