@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path/win32";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -14,6 +15,10 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+  },
+  turbopack: {
+    // We set the root to the directory where next.config.ts is located (__dirname)
+    root: path.join(__dirname),
   },
 };
 

@@ -1,4 +1,4 @@
-import { generateText, gateway } from "ai";
+// import { generateText, gateway } from "ai";
 import { client } from "@/sanity/lib/client";
 import {
   ORDERS_LAST_7_DAYS_QUERY,
@@ -210,118 +210,118 @@ export async function GET() {
     };
 
     // Generate AI insights
-    const { text } = await generateText({
-      model: gateway("anthropic/claude-sonnet-4"),
-      system: `You are an expert e-commerce analytics assistant. Analyze the provided store data and generate actionable insights for the store admin.
+//     const { text } = await generateText({
+//       model: gateway("anthropic/claude-sonnet-4"),
+//       system: `You are an expert e-commerce analytics assistant. Analyze the provided store data and generate actionable insights for the store admin.
 
-Your response must be valid JSON with this exact structure:
-{
-  "salesTrends": {
-    "summary": "2-3 sentence summary of sales performance",
-    "highlights": ["highlight 1", "highlight 2", "highlight 3"],
-    "trend": "up" | "down" | "stable"
-  },
-  "inventory": {
-    "summary": "2-3 sentence summary of inventory status",
-    "alerts": ["alert 1", "alert 2"],
-    "recommendations": ["recommendation 1", "recommendation 2"]
-  },
-  "actionItems": {
-    "urgent": ["urgent action 1", "urgent action 2"],
-    "recommended": ["recommended action 1", "recommended action 2"],
-    "opportunities": ["opportunity 1", "opportunity 2"]
-  }
-}
+// Your response must be valid JSON with this exact structure:
+// {
+//   "salesTrends": {
+//     "summary": "2-3 sentence summary of sales performance",
+//     "highlights": ["highlight 1", "highlight 2", "highlight 3"],
+//     "trend": "up" | "down" | "stable"
+//   },
+//   "inventory": {
+//     "summary": "2-3 sentence summary of inventory status",
+//     "alerts": ["alert 1", "alert 2"],
+//     "recommendations": ["recommendation 1", "recommendation 2"]
+//   },
+//   "actionItems": {
+//     "urgent": ["urgent action 1", "urgent action 2"],
+//     "recommended": ["recommended action 1", "recommended action 2"],
+//     "opportunities": ["opportunity 1", "opportunity 2"]
+//   }
+// }
 
-Guidelines:
-- Be specific with numbers and product names
-- Prioritize actionable insights
-- Keep highlights, alerts, and recommendations concise (under 100 characters each)
-- Focus on what the admin can do TODAY
-- Use £ for currency`,
-      prompt: `Analyze this e-commerce store data and provide insights:
+// Guidelines:
+// - Be specific with numbers and product names
+// - Prioritize actionable insights
+// - Keep highlights, alerts, and recommendations concise (under 100 characters each)
+// - Focus on what the admin can do TODAY
+// - Use £ for currency`,
+//       prompt: `Analyze this e-commerce store data and provide insights:
 
-${JSON.stringify(dataSummary, null, 2)}
+// ${JSON.stringify(dataSummary, null, 2)}
 
-Generate insights in the required JSON format.`,
-    });
+// Generate insights in the required JSON format.`,
+//     });
 
     // Parse AI response
-    let insights: {
-      salesTrends: {
-        summary: string;
-        highlights: string[];
-        trend: "up" | "down" | "stable";
-      };
-      inventory: {
-        summary: string;
-        alerts: string[];
-        recommendations: string[];
-      };
-      actionItems: {
-        urgent: string[];
-        recommended: string[];
-        opportunities: string[];
-      };
-    };
-    try {
-      // Extract JSON from the response (in case there's extra text)
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        insights = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error("No JSON found in response");
-      }
-    } catch {
-      // Fallback insights if parsing fails
-      insights = {
-        salesTrends: {
-          summary: `Revenue this week: £${currentRevenue.toFixed(2)} (${revenueChange > 0 ? "+" : ""}${revenueChange.toFixed(1)}% vs last week)`,
-          highlights: [
-            `${revenuePeriod.currentOrderCount || 0} orders this week`,
-            `Average order value: £${avgOrderValue.toFixed(2)}`,
-            topProducts[0]
-              ? `Top seller: ${topProducts[0].name}`
-              : "No sales data yet",
-          ],
-          trend:
-            revenueChange > 5 ? "up" : revenueChange < -5 ? "down" : "stable",
-        },
-        inventory: {
-          summary: `${needsRestock.length} products need restocking. ${slowMoving.length} products have no recent sales.`,
-          alerts: needsRestock
-            .slice(0, 2)
-            .map((p) => `${p.name} has only ${p.stock} left`),
-          recommendations: [
-            "Review low stock items before the weekend",
-            "Consider promotions for slow-moving inventory",
-          ],
-        },
-        actionItems: {
-          urgent:
-            unfulfilledOrders.length > 0
-              ? [`Ship ${unfulfilledOrders.length} pending orders`]
-              : ["All orders fulfilled!"],
-          recommended: ["Review inventory levels", "Check product listings"],
-          opportunities: ["Featured products drive more sales"],
-        },
-      };
-    }
+    // let insights: {
+    //   salesTrends: {
+    //     summary: string;
+    //     highlights: string[];
+    //     trend: "up" | "down" | "stable";
+    //   };
+    //   inventory: {
+    //     summary: string;
+    //     alerts: string[];
+    //     recommendations: string[];
+    //   };
+    //   actionItems: {
+    //     urgent: string[];
+    //     recommended: string[];
+    //     opportunities: string[];
+    //   };
+    // };
+    // try {
+    //   // Extract JSON from the response (in case there's extra text)
+    //   const jsonMatch = text.match(/\{[\s\S]*\}/);
+    //   if (jsonMatch) {
+    //     insights = JSON.parse(jsonMatch[0]);
+    //   } else {
+    //     throw new Error("No JSON found in response");
+    //   }
+    // } catch {
+    //   // Fallback insights if parsing fails
+    //   insights = {
+    //     salesTrends: {
+    //       summary: `Revenue this week: £${currentRevenue.toFixed(2)} (${revenueChange > 0 ? "+" : ""}${revenueChange.toFixed(1)}% vs last week)`,
+    //       highlights: [
+    //         `${revenuePeriod.currentOrderCount || 0} orders this week`,
+    //         `Average order value: £${avgOrderValue.toFixed(2)}`,
+    //         topProducts[0]
+    //           ? `Top seller: ${topProducts[0].name}`
+    //           : "No sales data yet",
+    //       ],
+    //       trend:
+    //         revenueChange > 5 ? "up" : revenueChange < -5 ? "down" : "stable",
+    //     },
+    //     inventory: {
+    //       summary: `${needsRestock.length} products need restocking. ${slowMoving.length} products have no recent sales.`,
+    //       alerts: needsRestock
+    //         .slice(0, 2)
+    //         .map((p) => `${p.name} has only ${p.stock} left`),
+    //       recommendations: [
+    //         "Review low stock items before the weekend",
+    //         "Consider promotions for slow-moving inventory",
+    //       ],
+    //     },
+    //     actionItems: {
+    //       urgent:
+    //         unfulfilledOrders.length > 0
+    //           ? [`Ship ${unfulfilledOrders.length} pending orders`]
+    //           : ["All orders fulfilled!"],
+    //       recommended: ["Review inventory levels", "Check product listings"],
+    //       opportunities: ["Featured products drive more sales"],
+    //     },
+    //   };
+    // }
 
-    return Response.json({
-      success: true,
-      insights,
-      rawMetrics: {
-        currentRevenue,
-        previousRevenue,
-        revenueChange: revenueChange.toFixed(1),
-        orderCount: revenuePeriod.currentOrderCount || 0,
-        avgOrderValue: avgOrderValue.toFixed(2),
-        unfulfilledCount: unfulfilledOrders.length,
-        lowStockCount: productsInventory.filter((p) => p.stock <= 5).length,
-      },
-      generatedAt: new Date().toISOString(),
-    });
+  //   return Response.json({
+  //     success: true,
+  //     insights,
+  //     rawMetrics: {
+  //       currentRevenue,
+  //       previousRevenue,
+  //       revenueChange: revenueChange.toFixed(1),
+  //       orderCount: revenuePeriod.currentOrderCount || 0,
+  //       avgOrderValue: avgOrderValue.toFixed(2),
+  //       unfulfilledCount: unfulfilledOrders.length,
+  //       lowStockCount: productsInventory.filter((p) => p.stock <= 5).length,
+  //     },
+  //     generatedAt: new Date().toISOString(),
+  //   });
   } catch (error) {
     console.error("Failed to generate insights:", error);
     return Response.json(

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { Package, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { EmptyState } from "@/components/ui/empty-state";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ORDERS_BY_USER_QUERY } from "@/lib/sanity/queries/orders";
 import { getOrderStatus } from "@/lib/constants/orderStatus";
@@ -25,13 +24,27 @@ export default async function OrdersPage() {
   if (orders.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
-        <EmptyState
-          icon={Package}
-          title="No orders yet"
-          description="When you place an order, it will appear here."
-          action={{ label: "Start Shopping", href: "/" }}
-          size="lg"
-        />
+        <div className="flex flex-col items-center justify-center text-center">
+          <div className="mb-6 rounded-full bg-muted p-6">
+            <Package className="h-10 w-10 text-muted-foreground" />
+          </div>
+
+          <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+            No orders yet
+          </h3>
+
+          <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+            When you place an order, it will appear here.
+          </p>
+
+          <Link
+            href="/"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          >
+            Start Shopping
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
     );
   }

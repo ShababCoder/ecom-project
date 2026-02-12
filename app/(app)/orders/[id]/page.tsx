@@ -178,7 +178,7 @@ export default async function OrderDetailPage({ params }: OrderPageProps) {
           )}
 
           {/* Payment Info */}
-          <div className="rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
+          {/* <div className="rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
             <div className="flex items-center gap-2">
               <CreditCard className="h-5 w-5 text-zinc-400" />
               <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">
@@ -192,6 +192,53 @@ export default async function OrderDetailPage({ params }: OrderPageProps) {
                   {order.status}
                 </span>
               </div>
+              {order.email && (
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-light tracking-wide">Email</p>
+                  <p className="min-w-0 truncate text-sm text-zinc-900 dark:text-zinc-100">
+                    {order.email}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div> */}
+
+          <div className="rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
+            <div className="flex items-center gap-2">
+              <CreditCard className="h-5 w-5 text-zinc-400" />
+              <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">
+                Payment
+              </h2>
+            </div>
+
+            <div className="mt-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-light tracking-wide">Method</span>
+                <span className="text-sm font-medium capitalize text-zinc-900 dark:text-zinc-100">
+                  {order.paymentMethod === "cod"
+                    ? "Cash on Delivery"
+                    : "Bank Transfer"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-light tracking-wide">
+                  Payment Status
+                </span>
+                <span className="text-sm font-medium capitalize text-amber-600">
+                  {order.paymentStatus ?? "pending"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-light tracking-wide">
+                  Order Status
+                </span>
+                <span className="text-sm font-medium capitalize text-green-600">
+                  {order.status}
+                </span>
+              </div>
+
               {order.email && (
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-light tracking-wide">Email</p>
